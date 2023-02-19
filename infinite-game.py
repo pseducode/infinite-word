@@ -26,8 +26,13 @@ def pickword():
     wordlist = wordchoices.readlines()
     numoptions =len(wordlist)
     return (wordlist[random.randint(0,numoptions-1)])
-    
-def main2(): #read main game loop for some reason
+def isvalidword(guess): # determine if entered word is legal or not. returns true/false
+    allwords = open("words","r")
+    wordlist = allwords.readlines()
+    guess = guess+"\n"
+    return (guess in wordlist)
+def main2():
+#read main game loop for some reason
 #some constants
     twidth=25 # width of a single tile
     theight=35 #height of a single tile
@@ -53,17 +58,55 @@ def main2(): #read main game loop for some reason
             if event.type ==pygame.KEYDOWN: #user typed a key, deal with it.
                 if event.key == pygame.K_BACKSPACE:
                     wordtry = wordtry[:-1]
-                elif ((event.Key==pygame.K_KP_ENTER) or (event.key=pygame.K_RETURN))
+                elif ((event.key==pygame.K_KP_ENTER) or (event.key==pygame.K_RETURN)):
                     #pressed enter/return, validate word, add to wordlist
+                    if((len(wordtry)==5) and isvalidword(wordtry)):
+                        wordsguessed.append(wordtry)
+                        wordtry=""
+                else:
+                    wordtry+=event.unicode
                 
                 
-                
-        #draw rows
+        ylocation = 30#top srow starting offset
+        #draw previous guess first
+        if (len(wordsguessed) > 0):
+            for guess in wordsguessed: #draw each word already guessed
+                ylocation+=theightoffset
+                wordcolor = scoreword(winning,guess)
+                for i in range(5): #drawing a guessed row in appropriate colors
+                    xlocation = 20+(widthoffset*i)
+                    if (wordcolor[i]=="g"):
+                        tcolor=green
+                    elif(wordcolor[i]=="y"):
+                        tcolor=yellow
+                    else:
+                        tocolor=gray
+                    #now know color to draw tile, draw it.
+                    pygrame.draw.rect(screen,tcolor,pygame.Rect(xlocation,ylocation,trwidth,theight))
+                    #fill in appropriate character onto tile
+                    font = pygame.font.SysFont(None,48)
+                    img = font.render(guess[i],True,(0,0,0))
+                    screen.blit(img,(xlocation,ylocation))
+                    
+        
         if wordtry =="": #haven't tried entering anything yet, draw empty row
             for i in range(5):
                 xlocation = 20+(twidthoffset*i)
                 pygame.draw.rect(screen,gray,pygame.Rect(xlocation,30,twidth,theight))
-                pygame.display.flip()
+                #pygame.display.flip()
+        else: #draw current board/guess so far
+            for i in range(5):
+                xlocation = 20+(twidthoffset*i)
+                pygame.draw.rect(screen,gray,(xlocation,ylocation,twidth,theight))
+                font = pygame.font.SysFont(None,48)
+                if (i<len(wordtry)):
+                    img = font.render(wordtry[i],True,(0,0,0))
+                    screen.blit(img,(xlocation,ylocation))
+                else:
+                    continue
+        pygame.display.flip()
+            
+             
             
             
         
