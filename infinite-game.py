@@ -12,6 +12,10 @@ def scoreword(winning,guess): #compare winning word to guess and return string c
     #green meaning right letter, right place, yellow meaning right letter,wong place, and k =black/gray, not appear in sdolution
     #first make a pass looking for green
     #next pass = check for yellows
+    print("passed in winning woird of: "+winning)
+    print("passed in guess of: "+guess)
+    print ("the length of wiining is: "+str(len(winning)))
+    print("Length of guess is: "+str(len(guess)))
     coded = ""#color representation of tile color, as compared to guess & winning word
     for i in range(len(winning)):
         if(guess[i]==winning[i]): # found correct letter, in correct spot, green
@@ -25,7 +29,7 @@ def pickword():
     wordchoices = open("words","r")
     wordlist = wordchoices.readlines()
     numoptions =len(wordlist)
-    return (wordlist[random.randint(0,numoptions-1)])
+    return ((wordlist[random.randint(0,numoptions-1)]).replace("\n",""))
 def isvalidword(guess): # determine if entered word is legal or not. returns true/false
     allwords = open("words","r")
     wordlist = allwords.readlines()
@@ -74,15 +78,15 @@ def main2():
                 ylocation+=theightoffset
                 wordcolor = scoreword(winning,guess)
                 for i in range(5): #drawing a guessed row in appropriate colors
-                    xlocation = 20+(widthoffset*i)
+                    xlocation = 20+(twidthoffset*i)
                     if (wordcolor[i]=="g"):
                         tcolor=green
                     elif(wordcolor[i]=="y"):
                         tcolor=yellow
                     else:
-                        tocolor=gray
+                        tcolor=gray
                     #now know color to draw tile, draw it.
-                    pygrame.draw.rect(screen,tcolor,pygame.Rect(xlocation,ylocation,trwidth,theight))
+                    pygame.draw.rect(screen,tcolor,pygame.Rect(xlocation,ylocation,twidth,theight))
                     #fill in appropriate character onto tile
                     font = pygame.font.SysFont(None,48)
                     img = font.render(guess[i],True,(0,0,0))
