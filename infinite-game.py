@@ -25,6 +25,10 @@ def scoreword(winning,guess): #compare winning word to guess and return string c
         else: #guess letter not in s olution, so grey/black
             coded+="k"
     return coded
+def drawletter(letter):
+    font = pygame.font.SysFont(None,48)
+    img = font.render(letter,True,(0,0,0))
+    return img
 def pickword():
     wordchoices = open("words","r")
     wordlist = wordchoices.readlines()
@@ -88,8 +92,8 @@ def main2():
                     #now know color to draw tile, draw it.
                     pygame.draw.rect(screen,tcolor,pygame.Rect(xlocation,ylocation,twidth,theight))
                     #fill in appropriate character onto tile
-                    font = pygame.font.SysFont(None,48)
-                    img = font.render(guess[i],True,(0,0,0))
+                    #font = pygame.font.SysFont(None,48)
+                    img = drawletter(guess[i])#font.render(guess[i],True,(0,0,0))
                     screen.blit(img,(xlocation,ylocation))
                     
         
