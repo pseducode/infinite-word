@@ -12,10 +12,10 @@ def scoreword(winning,guess): #compare winning word to guess and return string c
     #green meaning right letter, right place, yellow meaning right letter,wong place, and k =black/gray, not appear in sdolution
     #first make a pass looking for green
     #next pass = check for yellows
-    print("passed in winning woird of: "+winning)
-    print("passed in guess of: "+guess)
-    print ("the length of wiining is: "+str(len(winning)))
-    print("Length of guess is: "+str(len(guess)))
+    #print("passed in winning woird of: "+winning)
+    #print("passed in guess of: "+guess)
+    #print ("the length of wiining is: "+str(len(winning)))
+    #print("Length of guess is: "+str(len(guess)))
     coded = ""#color representation of tile color, as compared to guess & winning word
     for i in range(len(winning)):
         if(guess[i]==winning[i]): # found correct letter, in correct spot, green
@@ -108,7 +108,8 @@ def main2():
                 pygame.draw.rect(screen,gray,(xlocation,ylocation,twidth,theight))
                 font = pygame.font.SysFont(None,48)
                 if (i<len(wordtry)):
-                    img = font.render(wordtry[i],True,(0,0,0))
+                    img = drawletter(wordtry[i])
+                    #img = font.render(wordtry[i],True,(0,0,0))
                     screen.blit(img,(xlocation,ylocation))
                 else:
                     continue
