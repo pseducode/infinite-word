@@ -2,6 +2,7 @@
 #tracks/ draws guess board object
 
 class wordboard:
+    from collections import Counter
     numguesses= 0 #number of valid guesses made
     guessed = []#array off tuples with guesses and scores
     solution = "" #solution for game
@@ -15,8 +16,23 @@ class wordboard:
         self.gameover=false
 
     def scoreword(guess):
-        # encode scoring of word into green/yellow/gray
+        # compare winning solution to enrtered guess and return string corresponding to tile color of guess
+        #code results tyo gyk (green, yellow blasck/gray)
+        # g = green meaning right letter, right place,
+        #y = yellow meaning in solution, but wrong place, and
+        #k = gray/black meaning does not appear in solution
+        solfreq = Counter(self.solution) #get frequency of distinct letters in dictionary format, needed for checking fopr yellows of solution
+        guessfreq = Counter(guess) #get frequency of distinct letters in the guess, used for checking yellows
         score = ""
+        for i in range(len(self.solution)): # loop through every letter in the solution
+            scorefreq = Counter(score)
+            if (guess[i]==self.solution[1]) #founed correct letter in correct spot, so green
+                score+="g"
+            elif((guess[i] in self.solution) and (scorefreq["y"]<solfreq[guess[i]])):
+                score+="y"
+            else:
+                score+="k"
+        
         return score
     def enteredword (guess):
         #user has entered a valid word, so score it and tuple it with the guess then enter to list
