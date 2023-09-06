@@ -6,14 +6,14 @@ class wordboard:
     numguesses= 0 #number of valid guesses made
     guessed = []#array off tuples with guesses and scores
     solution = "" #solution for game
-    gameover = false #have we reached state where guess is equal to the ansdwer
+    gameover = False #have we reached state where guess is equal to the ansdwer
 
 
     def __init__(self,answer):
         self.solution = answer
         self.numguesses = 0
         self.guessed = []
-        self.gameover=false
+        self.gameover=False 
 
     def scoreword(guess):
         # compare winning solution to enrtered guess and return string corresponding to tile color of guess
@@ -26,27 +26,30 @@ class wordboard:
         score = ""
         for i in range(len(self.solution)): # loop through every letter in the solution
             scorefreq = Counter(score)
-            if (guess[i]==self.solution[1]) #founed correct letter in correct spot, so green
+            if (guess[i]==self.solution[1]): #founed correct letter in correct spot, so green
                 score+="g"
-            elif((guess[i] in self.solution) and (scorefreq["y"]<solfreq[guess[i]])):
+            elif((guess[i] in self.solution) and (scorefreq["y"]<solfreq[guess[i]])): #only color tiles yellow up to maximum in solution
                 score+="y"
             else:
                 score+="k"
         
         return score
-    def enteredword (guess):
+    def enteredword (self,guess):
         #user has entered a valid word, so score it and tuple it with the guess then enter to list
-        codedword = scoreword(guess)
+        codedword = scoreword (guess)
         row = (guess, codedword)
+        if(codedword == "ggggg"): #all greens, so gameover, flip bit appropriately
+            self.gameover = True
         self.guessed.append(row) #add row to the board with it's appropriate color-coded score
         self.numguesses+= 1
     def guesscount():
         #return number of guesses user has made so far
         return self.numguesses
-    def gameover ():
+    def isgameover (self):
         #has user guessed correct answer yet?
         return self.gameover
     def drawboard():
+        return
         #create and return pygame surface object of full board of guesses, so game play can just append an empty row to bottom?
         
     
